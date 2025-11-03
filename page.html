@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<!-- 
+  This is the root HTML element. The 'class' attribute is left empty 
+  so JavaScript can add 'dark' to it based on user preference.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vihanga - Designer Portfolio</title>
+    <meta name="description" content="The portfolio of Vihanga, a designer specializing in UX/UI, branding, and prototyping.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- 
+      FEATURE: Tailwind CSS CDN
+      This script loads the Tailwind CSS framework for styling.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 
+      FEATURE: Tailwind Configuration
+      This script configures Tailwind to:
+      1. Enable Dark Mode using the 'class' strategy (applies .dark class to <html>).
+      2. Set 'Inter' as the default sans-serif font for the entire site.
+    -->
+    <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          // FEATURE: Load Animation (Keyframes)
+          // We define a simple keyframe for the hero text fade-in-up animation.
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          },
+          animation: {
+            fadeInUp: 'fadeInUp 1s ease-out forwards',
+          }
+        }
+      }
+    }
+    </script>
+    
+    <!-- 
+      STYLE: Custom Scroll Behavior
+      This ensures the smooth scrolling from JavaScript works correctly.
+    -->
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .project-card-glow {
+        transition: box-shadow 0.3s ease-in-out;
+      }
+
+      .project-card-glow:hover {
+        box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.5); /* blue-500 glow */
+      }
+
+      .dark .project-card-glow:hover {
+        box-shadow: 0 0 20px 5px rgba(96, 165, 250, 0.5); /* blue-400 glow */
+      }
+
+      .gradient-border {
+        position: relative;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+      }
+
+      .gradient-border::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+        margin: -2px; /* equal to border width */
+        border-radius: inherit; /* inherit container's border-radius */
+        background: linear-gradient(to right, #3b82f6, #9333ea);
+      }
+    </style>
+</head>
+<body class="font-sans antialiased bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- 
+      COMPONENT: Sticky Header/Navbar
+      This header sticks to the top of the viewport and contains the main navigation
+      and the dark mode toggle.
+    -->
+    <header class="sticky top-0 z-50 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm transition-colors duration-300 border-b border-gray-200 dark:border-gray-700">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- LOGO/NAME -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold text-gray-900 dark:text-white">Vihanga</a>
+                </div>
+                
+                <!-- NAVIGATION LINKS (Desktop) -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="#work" class="nav-link text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Work</a>
+                    <a href="#skills" class="nav-link text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Skills</a>
+                    <a href="#testimonials" class="nav-link text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Testimonials</a>
+                    <a href="#about" class="nav-link text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">About</a>
+                    <a href="#contact" class="nav-link text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Contact</a>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" aria-label="Toggle Dark Mode" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <svg id="moonIcon" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg id="sunIcon" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.7.7M4.04 19.96l-.7.7M21 12h-1M4 12H3m16.96-7.96l-.7.7M4.74 4.74l-.7.7M12 18a6 6 0 100-12 6 6 0 000 12z" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden ml-4">
+                        <button id="mobileMenuButton" aria-label="Open Menu" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#work" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Work</a>
+                <a href="#skills" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Skills</a>
+                <a href="#testimonials" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Testimonials</a>
+                <a href="#about" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">About</a>
+                <a href="#contact" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-gray-900 dark:text-white opacity-0 animate-fadeInUp" style="animation-delay: 0.2s;">
+                    Hi, I’m Vihanga —
+                </h1>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-gray-900 dark:text-white opacity-0 animate-fadeInUp" style="animation-delay: 0.4s;">
+                    A Designer.
+                </h1>
+            </div>
+        </section>
+
+        <!-- Featured Project Section -->
+        <section id="work" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Featured Project</h2>
+                <div class="max-w-4xl mx-auto">
+                    <div class="gradient-border rounded-lg project-card-glow overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/2">
+                                <img src="home.png" alt="Movie Explorer Project Screenshot" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8 md:w-1/2 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm">
+                                <h3 class="text-2xl font-bold mb-2">Movie Explorer</h3>
+                                <p class="text-gray-800 dark:text-gray-200 mb-4">Create your profile, save your watchlist, and get personalized recommendations.</p>
+                                <div class="flex flex-col space-y-4">
+                                <a href="https://vihanga-dot.github.io/movie-explorer/index.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center">View Live Site</a>
+                                    <button id="openModalButton" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">More Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills/Expertise Section -->
+        <section id="skills" class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">My Expertise</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="anim-fade-in p-8 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-semibold mb-3">UX/UI Design</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Creating intuitive and beautiful user experiences.</p>
+                    </div>
+                    <div class="anim-fade-in p-8 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm" style="animation-delay: 0.2s;">
+                        <h3 class="text-2xl font-semibold mb-3">Branding</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Developing strong and memorable brand identities.</p>
+                    </div>
+                    <div class="anim-fade-in p-8 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm" style="animation-delay: 0.4s;">
+                        <h3 class="text-2xl font-semibold mb-3">Prototyping</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Bringing ideas to life with interactive prototypes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-center">
+                    <div class="md:col-span-1">
+                        <img src="profile_pic.jpg" alt="Vihanga's Profile Picture" class="w-full h-auto rounded-lg shadow-lg object-cover">
+                    </div>
+                    <div class="md:col-span-2">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">About Me</h2>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                            I'm Vihanga, a passionate designer focused on creating engaging and user-centric digital experiences. With a background in both graphic design and user interaction, I bridge the gap between aesthetics and usability.
+                        </p>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                            I believe great design is about solving problems and communicating ideas clearly. I thrive in collaborative environments and am always learning new skills to push my creative boundaries.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Get In Touch</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                    I'm currently available for freelance projects. Let's create something amazing together.
+                </p>
+                <form id="contact-form" class="max-w-xl mx-auto text-left">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Name</label>
+                        <input type="text" id="name" name="name" required class="w-full px-3 py-2 border rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full px-3 py-2 border rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Message</label>
+                        <textarea id="message" name="message" rows="4" required class="w-full px-3 py-2 border rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Send Message</button>
+                    </div>
+                    <div id="form-status" class="mt-4 text-center"></div>
+                </form>
+                
+                <!-- Social Icon Links -->
+                <div class="flex justify-center space-x-8 mt-12">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/share/1C4ToWDpXP/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 transition-all duration-200 hover:scale-110">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/+94721470807" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="text-gray-500 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400 transition-all duration-200 hover:scale-110">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.11 4.91A9.84 9.84 0 0 0 12.04 2C6.53 2 2.05 6.48 2.05 12c0 1.7.43 3.32 1.22 4.76L2 22l5.3-1.42c1.4.74 2.97 1.18 4.65 1.18 5.51 0 9.99-4.48 9.99-10 0-2.73-1.08-5.2-2.88-7.07zM12.04 20.15c-1.47 0-2.87-.4-4.1-1.15l-.3-.18-3.05.82.83-2.98-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.5 3.63-8.13 8.13-8.13 2.22 0 4.3.87 5.8 2.37 1.5 1.5 2.37 3.58 2.37 5.8s-.87 4.3-2.37 5.8c-1.5 1.5-3.58 2.37-5.8 2.37zm4.78-6.38c-.27-.13-1.6-.79-1.85-.88-.25-.09-.43-.13-.62.13-.19.27-.7.88-.86 1.06-.16.18-.32.2-.6.08-.27-.13-1.15-.42-2.18-1.34-.8-.73-1.34-1.64-1.5-1.92-.16-.27-.02-.43.12-.55.13-.13.27-.32.41-.48.13-.16.18-.27.27-.45.09-.18.05-.36-.02-.5-.08-.13-.62-1.49-.85-2.04-.23-.55-.46-.48-.62-.48-.16 0-.35-.05-.53-.05-.18 0-.48.08-.73.36-.25.27-.98.95-1.2 2.3-.22 1.34.22 2.68.5 3.58.28.9 1.9 2.93 4.6 4.09 2.7 1.16 2.7 1.8.32 2.12.3.05.97.02 1.37-.16.45-.2.7-.83.8-1.13.1-.3.05-.55-.02-.68z" />
+                        </svg>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/v_i_han_ga?igsh=MWllYWNpZGJ6a2htaQ==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-500 dark:text-gray-400 hover:text-pink-500 dark:hover:text-pink-400 transition-all duration-200 hover:scale-110">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.053 1.98.227 2.65.48c.67.253 1.22.583 1.77.98c.55.4.88.95 1.13 1.62c.25.67.43 1.48.48 2.65c.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.23 1.98-.48 2.65c-.25.67-.58 1.22-.98 1.77c-.4.55-.95.88-1.62 1.13c-.67.25-1.48.43-2.65.48c-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.98-.23-2.65-.48c-.67-.25-1.22-.58-1.77-.98c-.55-.4-.88-.95-1.13-1.62c-.25-.67-.43-1.48-.48-2.65c-.06-1.26-.07-1.64-.07-4.85s.01-3.58.07-4.85c.05-1.17.23-1.98.48-2.65c.25-.67.58-1.22.98-1.77c.4-.55.95-.88 1.62-1.13c.67-.25 1.48-.43 2.65-.48c1.26-.06 1.64-.07 4.85-.07zM12 0C8.74 0 8.33.014 7.05.072C5.77.13 4.63.35 3.7.72c-.95.37-1.76.84-2.5 1.58c-.75.75-1.2 1.55-1.58 2.5c-.37.93-.6 2.07-.65 3.35C.01 8.33 0 8.74 0 12s.014 3.67.072 4.95c.05 1.28.28 2.42.65 3.35c.37.95.84 1.76 1.58 2.5c.75.75 1.55 1.2 2.5 1.58c.93.37 2.07.6 3.35.65C8.33 23.986 8.74 24 12 24s3.67-.014 4.95-.072c1.28-.05 2.42-.28 3.35-.65c.95-.37 1.76-.84 2.5-1.58c.75-.75 1.2-1.55 1.58-2.5c-.93-.37-2.07-.6-3.35-.65C15.67.014 15.26 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full m-4">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 class="text-2xl font-bold">Movie Explorer</h3>
+                <button id="closeModalButton" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <img src="home.png" alt="Movie Explorer Project Screenshot" class="w-full h-auto object-cover rounded-lg mb-4">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                    This project is a web application that allows users to discover movies. Users can create a profile, save movies to their watchlist, and get personalized recommendations. The application is built with modern web technologies and provides a clean and intuitive user interface for exploring a vast library of movies.
+                </p>
+                <a href="https://vihanga-dot.github.io/movie-explorer/index.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">View Live Site</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-500 dark:text-gray-400">&copy; 2025 Vihanga. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Dark Mode Toggle Logic ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const htmlElement = document.documentElement;
+
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                }
+            };
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                let currentTheme = htmlElement.classList.contains('dark') ? 'light' : 'dark';
+                localStorage.setItem('theme', currentTheme);
+                applyTheme(currentTheme);
+            });
+
+            // --- Mobile Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Smooth Scroll Logic with Animation ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+
+                    if (targetSection) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - headerHeight;
+
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // Add animation to the target section
+                        document.querySelectorAll('section').forEach(section => {
+                            section.classList.remove('animate-fadeInUp', 'opacity-0');
+                        });
+
+                        setTimeout(() => {
+                            targetSection.classList.add('opacity-0', 'animate-fadeInUp');
+                        }, 100);
+                    }
+                });
+            });
+
+            // --- Project Modal Logic ---
+            const openModalButton = document.getElementById('openModalButton');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const projectModal = document.getElementById('projectModal');
+
+            openModalButton.addEventListener('click', () => {
+                projectModal.classList.remove('hidden');
+            });
+
+            closeModalButton.addEventListener('click', () => {
+                projectModal.classList.add('hidden');
+            });
+            
+            projectModal.addEventListener('click', (e) => {
+                if (e.target === projectModal) {
+                    projectModal.classList.add('hidden');
+                }
+            });
+
+            // --- Scroll Animation Logic ---
+            const animatedElements = document.querySelectorAll('.anim-fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeInUp');
+                    } else {
+                        entry.target.classList.remove('animate-fadeInUp');
+                        entry.target.classList.add('opacity-0');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+                el.classList.add('opacity-0');
+            });
+
+            document.querySelectorAll('section:not(.anim-fade-in)').forEach(section => {
+                if (section.id !== 'home') {
+                    section.classList.add('opacity-0');
+                    const sectionObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('animate-fadeInUp');
+                                sectionObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    sectionObserver.observe(section);
+                }
+            });
+
+            // --- Google Sheet Contact Form Logic ---
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxH-GXFanVhRb-IVJVswlFx3tQ9hTNPSJnANnkDMEhN74irT8XuUmGn_vwT492dsCrYhg/exec';
+
+            contactForm.addEventListener('submit', e => {
+                e.preventDefault();
+                formStatus.textContent = 'Sending...';
+                fetch(scriptURL, { method: 'POST', body: new FormData(contactForm)})
+                    .then(response => {
+                        formStatus.textContent = 'Message sent successfully!';
+                        contactForm.reset();
+                        setTimeout(() => { formStatus.textContent = '' }, 5000);
+                    })
+                    .catch(error => {
+                        formStatus.textContent = 'Error: Could not send message.';
+                        console.error('Error!', error.message)
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
