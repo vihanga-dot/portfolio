@@ -159,11 +159,11 @@
             </div>
         </section>
 
-        <!-- Featured Project Section -->
+        <!-- Projects Section -->
         <section id="work" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Featured Project</h2>
-                <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">My Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
                     <div class="gradient-border rounded-lg project-card-glow overflow-hidden">
                         <div class="md:flex">
                             <div class="md:w-1/2">
@@ -173,8 +173,38 @@
                                 <h3 class="text-2xl font-bold mb-2">Movie Explorer</h3>
                                 <p class="text-gray-800 dark:text-gray-200 mb-4">Create your profile, save your watchlist, and get personalized recommendations.</p>
                                 <div class="flex flex-col space-y-4">
-                                <a href="https://vihanga-dot.github.io/movie-explorer/index.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center">View Live Site</a>
-                                    <button id="openModalButton" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">More Details</button>
+                                    <a href="https://vihanga-dot.github.io/movie-explorer/index.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center">View Live Site</a>
+                                    <button class="project-modal-btn mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" data-project="movie">More Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gradient-border rounded-lg project-card-glow overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/2">
+                                <img src="roadetrip.png" alt="Roadtrip Project Screenshot" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8 md:w-1/2 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm">
+                                <h3 class="text-2xl font-bold mb-2">Roadtrip</h3>
+                                <p class="text-gray-800 dark:text-gray-200 mb-4">A website for renting vehicles for trips and adventures.</p>
+                                <div class="flex flex-col space-y-4">
+                                    <a href="https://vihanga-dot.github.io/roadtrip/index.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center">View Live Site</a>
+                                    <button class="project-modal-btn mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" data-project="roadtrip">More Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gradient-border rounded-lg project-card-glow overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/2">
+                                <img src="ice_shop.png" alt="Ice Shop Project Screenshot" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8 md:w-1/2 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm">
+                                <h3 class="text-2xl font-bold mb-2">Ice Shop</h3>
+                                <p class="text-gray-800 dark:text-gray-200 mb-4">A website for an ice cream shop with online ordering and menu browsing.</p>
+                                <div class="flex flex-col space-y-4">
+                                    <a href="http://vihanga-dot.github.io/ice-shop" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center">View Live Site</a>
+                                    <button class="project-modal-btn mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" data-project="ice">More Details</button>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +312,7 @@
     <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full m-4">
             <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="text-2xl font-bold">Movie Explorer</h3>
+                <h3 id="modalProjectTitle" class="text-2xl font-bold">Project Title</h3>
                 <button id="closeModalButton" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -290,11 +320,11 @@
                 </button>
             </div>
             <div class="p-4">
-                <img src="home.png" alt="Movie Explorer Project Screenshot" class="w-full h-auto object-cover rounded-lg mb-4">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">
-                    This project is a web application that allows users to discover movies. Users can create a profile, save movies to their watchlist, and get personalized recommendations. The application is built with modern web technologies and provides a clean and intuitive user interface for exploring a vast library of movies.
+                <img id="modalProjectImage" src="" alt="Project Screenshot" class="w-full h-auto object-cover rounded-lg mb-4">
+                <p id="modalProjectDescription" class="text-gray-600 dark:text-gray-400 mb-4">
+                    Project description will appear here.
                 </p>
-                <a href="https://vihanga-dot.github.io/movie-explorer/index.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">View Live Site</a>
+                <a id="modalProjectLink" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">View Live Site</a>
             </div>
         </div>
     </div>
@@ -382,18 +412,59 @@
             });
 
             // --- Project Modal Logic ---
-            const openModalButton = document.getElementById('openModalButton');
+            const projectModalBtns = document.querySelectorAll('.project-modal-btn');
             const closeModalButton = document.getElementById('closeModalButton');
             const projectModal = document.getElementById('projectModal');
+            const modalProjectTitle = document.getElementById('modalProjectTitle');
+            const modalProjectImage = document.getElementById('modalProjectImage');
+            const modalProjectDescription = document.getElementById('modalProjectDescription');
+            const modalProjectLink = document.getElementById('modalProjectLink');
 
-            openModalButton.addEventListener('click', () => {
-                projectModal.classList.remove('hidden');
+            // Define project data
+            const projects = {
+                movie: {
+                    title: 'Movie Explorer',
+                    image: 'home.png',
+                    description: 'This project is a web application that allows users to discover movies. Users can create a profile, save movies to their watchlist, and get personalized recommendations. The application is built with modern web technologies and provides a clean and intuitive user interface for exploring a vast library of movies.',
+                    link: 'https://vihanga-dot.github.io/movie-explorer/index.html'
+                },
+                roadtrip: {
+                    title: 'Roadtrip',
+                    image: 'roadetrip.png',
+                    description: 'A website for renting vehicles for trips and adventures, featuring an easy-to-use interface for users to browse available vehicles, view pricing, and make rental reservations. Built with responsive design for mobile and desktop accessibility.',
+                    link: 'https://vihanga-dot.github.io/roadtrip/index.html'
+                },
+                ice: {
+                    title: 'Ice Shop',
+                    image: 'ice_shop.png',
+                    description: 'A website for an ice cream shop with online ordering and menu browsing. Features an attractive gallery of ice cream flavors, online ordering system, and customer reviews section. Designed with a sweet, inviting interface that reflects the brand personality.',
+                    link: 'http://vihanga-dot.github.io/ice-shop'
+                }
+            };
+
+            // Add event listeners to all project modal buttons
+            projectModalBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    const projectId = button.getAttribute('data-project');
+                    const project = projects[projectId];
+
+                    if(project) {
+                        modalProjectTitle.textContent = project.title;
+                        modalProjectImage.src = project.image;
+                        modalProjectImage.alt = `${project.title} Project Screenshot`;
+                        modalProjectDescription.textContent = project.description;
+                        modalProjectLink.href = project.link;
+                        modalProjectLink.textContent = `View Live Site`;
+
+                        projectModal.classList.remove('hidden');
+                    }
+                });
             });
 
             closeModalButton.addEventListener('click', () => {
                 projectModal.classList.add('hidden');
             });
-            
+
             projectModal.addEventListener('click', (e) => {
                 if (e.target === projectModal) {
                     projectModal.classList.add('hidden');
